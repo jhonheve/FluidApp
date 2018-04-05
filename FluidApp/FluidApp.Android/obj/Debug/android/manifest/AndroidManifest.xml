@@ -4,11 +4,14 @@
   <uses-sdk android:minSdkVersion="15" />
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.CAMERA" />
   <uses-feature android:name="android.hardware.camera" android:required="true" />
   <uses-permission android:name="android.permission.INTERNET" />
-  <uses-permission android:name="android.permission.CAMERA" />
-  <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+  <uses-feature android:name="android.hardware.camera.autofocus" android:required="true" />
   <application android:label="FluidApp.Android" android:icon="@drawable/icon" android:name="android.app.Application" android:allowBackup="true" android:debuggable="true">
+    <provider android:name="android.support.v4.content.FileProvider" android:authorities="com.companyname.FluidApp.fileprovider" android:exported="false" android:grantUriPermissions="true">
+      <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
+    </provider>
     <activity android:configChanges="orientation|screenSize" android:icon="@drawable/icon" android:label="FluidApp" android:theme="@style/MainTheme" android:name="md5f51e2176107a0344298878e1b844b2df.MainActivity">
       <intent-filter>
         <action android:name="android.intent.action.MAIN" />
@@ -26,7 +29,4 @@
     </receiver>
     <meta-data android:name="android.support.VERSION" android:value="25.4.0" />
   </application>
-  <provider android:name="android.support.v4.content.FileProvider" android:authorities="com.companyname.FluidApp.fileprovider" android:exported="false" android:grantUriPermissions="true">
-    <meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/file_paths"></meta-data>
-  </provider>
 </manifest>

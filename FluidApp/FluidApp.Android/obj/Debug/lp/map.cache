@@ -27,3 +27,9 @@ Xamarin.Forms.Platform
 Xamarin.Forms.Xaml
 System.ComponentModel
 System.Reflection.Extensions
+Newtonsoft.Json
+System.Net.Http.Extensions
+System.Net.Http.Primitives
+netstandard
+MimeMapping
+Onfido

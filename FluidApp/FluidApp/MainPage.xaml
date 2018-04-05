@@ -3,11 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FluidApp"
              x:Class="FluidApp.MainPage">
-
-    <StackLayout>
-        <Image x:Name="LoadedPicture"  ></Image>
-        <Button Text="Send you document ID" Clicked="Button_Clicked"></Button>
-        <Button Text="Select the document" Clicked="Button_Clicked_1"></Button>
-    </StackLayout>
-
+    <ContentPage.Content>
+        <StackLayout>
+            <Image x:Name="LoadedPicture" WidthRequest="50"  ></Image>
+            <Button Text="Take The picture of your document Identity" Clicked="Button_Clicked_1" x:Name="btIdentification"></Button>
+            <Image x:Name="selfieFile" WidthRequest="50" ></Image>
+            <Button Text="Please, take a clear selfie" Clicked="Button_Clicked" x:Name="btnSelfie" ></Button>
+            <Button Text="Start the process" 
+                x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
+                Clicked="Next_Clicked"
+                />
+        </StackLayout>
+    </ContentPage.Content>
 </ContentPage>

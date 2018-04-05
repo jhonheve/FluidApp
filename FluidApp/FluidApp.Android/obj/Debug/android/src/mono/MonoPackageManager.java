@@ -108,6 +108,9 @@ class MonoPackageManager_Resources {
 		/* We need to ensure that "FluidApp.Android.dll" comes first in this list. */
 		"FluidApp.Android.dll",
 		"FormsViewGroup.dll",
+		"MimeMapping.dll",
+		"Newtonsoft.Json.dll",
+		"Onfido.dll",
 		"Plugin.CurrentActivity.dll",
 		"Plugin.Media.Abstractions.dll",
 		"Plugin.Media.dll",
@@ -136,5 +139,5 @@ class MonoPackageManager_Resources {
 	};
 	public static final String[] Dependencies = new String[]{
 	};
-	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_25";
+	public static final String ApiPackageName = "Mono.Android.Platform.ApiLevel_27";
 }
