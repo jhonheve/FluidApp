@@ -16,6 +16,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\RelayCommandHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\UserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidation.xaml.cs">
       <DependentUpon>IdentityValidation.xaml</DependentUpon>
       <SubType>Code</SubType>

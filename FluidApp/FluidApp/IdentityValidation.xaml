@@ -6,29 +6,32 @@
              Title="Identification">
     <ContentPage.Content>
         <StackLayout Padding="50" Spacing="10">
-            <Label Text="First Name" HorizontalOptions="StartAndExpand"  />
-            <Editor HorizontalOptions="StartAndExpand" x:Name="txtFirstName"
-                    Margin="0, 5" MinimumWidthRequest="200" WidthRequest="200" />
+            <Label Text="First Name" />
+            <Entry  x:Name="txtFirstName" Margin="0, 5" Text="{Binding FirstName}" />
 
-            <Label Text="Last Name" HorizontalOptions="StartAndExpand"  />
-            <Editor HorizontalOptions="StartAndExpand" x:Name="txtLastName"
-                    Margin="0, 5" MinimumWidthRequest="200" WidthRequest="200" />
+            <Label Text="Last Name"  />
+            <Entry x:Name="txtLastName" Margin="0, 5" Text="{Binding LastName}" />
 
-            <Label Text="Select Your Document type" HorizontalOptions="StartAndExpand"  />
+            <Label Text="Select Your Document type"  />
+            <Picker x:Name="IdentityTypes" Title="Select your document ID type" Margin="0, 5"
+                    ItemsSource="{Binding DocumentTypes}"
+                    SelectedItem="{Binding IdentificationType}">
+                
+            </Picker>
+
+            <Label Text="Day of Birth"/>
+            <DatePicker Date="{Binding DayOfBirth}">
+                <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
+            </DatePicker>
+
+            <Label Text="Mobil"/>
+            <Entry Margin="0, 5" Text="{Binding CellPhone}" />
             
-            <Picker x:Name="IdentityTypes" HorizontalOptions="StartAndExpand" 
-                    Title="Select your document ID type"
-                     Margin="0, 5"/>
-            
-            <Label Text="Country" x:Name="lbCountry" HorizontalOptions="StartAndExpand"  />
-            
-            <Editor HorizontalOptions="StartAndExpand" x:Name="txtCountry"
-                    Margin="0, 5" MinimumWidthRequest="200" WidthRequest="200" />
+            <Label Text="Country" x:Name="lbCountry" />            
+            <Entry x:Name="txtCountry" Margin="0, 5" Text="{Binding Country}" />
 
             <Button Text="Proceed with your document files" 
-                x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
-                Clicked="Next_Clicked"
-                />
+                x:Name="Next" Font="20"  Command="{Binding NextDocuments}"/>
         </StackLayout>        
     </ContentPage.Content>
 </ContentPage>

@@ -1,15 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
-using Onfido;
+﻿using Onfido;
 using Onfido.Entities;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -25,8 +20,9 @@ namespace FluidApp
         public string DocumentType { get; set; }
         public string Country { get; set; }
 
-        public MainPage()
+        public MainPage(UserViewModel userViewModel)
         {
+            BindingContext = userViewModel;
             InitializeComponent();
         }
 
@@ -63,8 +59,7 @@ namespace FluidApp
                 pictureDocument = await LoadCamara("document");
                 LoadedPicture.Source = ImageSource.FromStream(() =>
                 {
-                    var stPassport = pictureDocument.GetStream();
-                    //photo.Dispose();
+                    var stPassport = pictureDocument.GetStream();                   
                     return stPassport;
                 });
             }
@@ -87,11 +82,10 @@ namespace FluidApp
 
             var storePicture = new StoreCameraMediaOptions()
             {
-                SaveToAlbum = true,
+                SaveToAlbum = false,
                 Name = $"{fileName}{DateTime.Now.ToString("yyMMddhhmmss")}.jpg",
                 AllowCropping = true,
-
-                DefaultCamera = CameraDevice.Rear,
+                DefaultCamera = CameraDevice.Front,
                 SaveMetaData = true,
                 Location = location
             };
@@ -102,11 +96,9 @@ namespace FluidApp
         private void Next_Clicked(object sender, EventArgs e)
         {
             try
-            {
-                Settings.SetApiToken("test_rKbkzSuHC8YnDNCDoBpZP1BhlevqEptU");
-                Settings.SetApiVersion("v2");
+            {               
                 var api = new Onfido.Api();
-                var applicant = new Applicant
+                var applicant = new Onfido.Entities.Applicant
                 {
                     FirstName = "J_123_oh_nVsertergara",
                     LastName = "Smith",

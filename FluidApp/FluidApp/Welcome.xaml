@@ -1,13 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FluidViewModel;assembly=FluidViewModel"
              x:Class="FluidApp.Welcome" Title="Fluid">
-    <Grid>
-        <Label Text="Welcome to Fluid" VerticalOptions="CenterAndExpand" HorizontalTextAlignment="Center" 
-               HorizontalOptions="CenterAndExpand" FontSize="20" />
+    <StackLayout Padding="0,20,0,0">
+        
+        <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="20" />        
+        <Label Text="Email:" />
+        <Entry Placeholder="Please type your email" x:Name="stEmail" Text="{Binding Email}"  />
+
         <Button Text="Do you like to keep processing your information" 
                 x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
-                Clicked="Next_Clicked"
-                />
-    </Grid>
+                Command="{Binding NextWelcome}" />
+    </StackLayout>
 </ContentPage>

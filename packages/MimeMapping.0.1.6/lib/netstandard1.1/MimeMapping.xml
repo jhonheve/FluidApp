@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MimeMapping</name>
+    </assembly>
+    <members>
+        <member name="P:MimeMapping.MimeTypes.TypeMap">
+            <summary>
+            Dictionary of all available types
+            </summary>
+        </member>
+        <member name="M:MimeMapping.MimeTypes.GetMimeMapping(System.String)">
+            <param name="file">The raw file extensions (ex: "zip") or the file name or file path</param>
+            <returns>The mime type string, returns "application/octet-stream" if no known type was found</returns>
+        </member>
+    </members>
+</doc>
