@@ -108,6 +108,7 @@ D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\android\assets\Sy
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\android\assets\System.Web.Services.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\android\assets\System.Xml.Linq.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\android\assets\System.Xml.pdb
+D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Droid.SelfieDoc.xaml.g.cs
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\FluidApp.Android.dll
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\linksrc\FluidApp.Android.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\linksrc\FormsViewGroup.dll.mdb

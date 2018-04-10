@@ -1,9 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using FluidApp.Entities;
+using FluidApp.Helpers;
+using Newtonsoft.Json;
 using Onfido;
 using Onfido.Entities;
+using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -17,14 +21,20 @@ namespace FluidApp
 {
     public class UserViewModel : INotifyPropertyChanged
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand NextWelcome { get; private set; }
-        public ICommand NextDocuments { get; private set; }
-
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
+        #region Commands
+        public event PropertyChangedEventHandler PropertyChanged;
+        public ICommand NextWelcome { get; private set; }
+        public ICommand NextDocuments { get; private set; }
+        public ICommand NextSelfiePageHandler { get; private set; }
+        public ICommand LoadDocumentHandler { get; private set; }
+        public ICommand SelfieHandler { get; private set; }
+        public ICommand FinishProcessHandler { get; private set; }
+        #endregion
 
         #region Properties        
         //public ICommand NextWelcome { get; private set; }
@@ -187,9 +197,43 @@ namespace FluidApp
             }
         }
 
+        
+
+        public MediaFile DocumentSource { get; private set; }
+        public MediaFile SelfieSource { get; private set; }
+
+        private ImageSource documentResource;
+        public ImageSource DocumentResource
+        {
+            get { return documentResource; }
+            set
+            {
+                if (documentResource != value)
+                {
+                    documentResource = value;
+                    OnPropertyChanged("DocumentResource");
+                }
+            }
+        }
+
+        private ImageSource selfieResource;
+        public ImageSource SelfieResource
+        {
+            get { return selfieResource; }
+            set
+            {
+                if (selfieResource != value)
+                {
+                    selfieResource = value;
+                    OnPropertyChanged("SelfieResource");
+                }
+            }
+        }
+
         public INavigation Navigation { get; internal set; }
 
         public List<string> DocumentTypes { get; set; }
+
         #endregion
 
         #region Constructor
@@ -199,6 +243,11 @@ namespace FluidApp
             Settings.SetApiVersion("v2");
             NextWelcome = new RelayCommandHandler(GetApplication);
             NextDocuments = new RelayCommandHandler(UploadDocuments);
+            NextSelfiePageHandler = new RelayCommandHandler(SelfiePage);
+            LoadDocumentHandler = new RelayCommandHandler(LoadDocument);
+            SelfieHandler = new RelayCommandHandler(LoadSelfie);
+            FinishProcessHandler = new RelayCommandHandler(FinishProcess);
+
             DocumentTypes = new List<string>();
             DocumentTypes.Add("Government ID");
             DocumentTypes.Add("Driver's License");
@@ -208,6 +257,29 @@ namespace FluidApp
         #endregion
 
         #region PrivateMethod
+
+        private async void FinishProcess(object obj)
+        {
+            if (SaveSelfie())
+            {
+                var checks = new Onfido.Resources.Checks();
+                var check = new Check
+                {
+                    Type = CheckType.Express,
+                    Reports = new List<Report>
+                    {
+                        new Report { Name = "identity", Variant="kyc"}
+                    }
+                };
+                var new_check = checks.Create(AppId, check);
+                if (new_check.Id != null)
+                {
+                    //Alert Process Ending successfully
+                    await Navigation.PushAsync(new Welcome());
+
+                }
+            }
+        }
 
         private async void GetApplication(object obj)
         {
@@ -261,6 +333,78 @@ namespace FluidApp
             }
         }
 
+        private async void SelfiePage(object obj)
+        {
+            if (DocumentResource != null && SaveDocument())
+            {
+                await Navigation.PushAsync(new SelfieDoc(this));
+            }
+        }
+
+        private bool SaveDocument()
+        {
+            try
+            {
+                var api = new Onfido.Api();                
+                var documentApi = api.Documents.Create(AppId, DocumentSource.GetStream(), "Passport.png", DocumentType.Passport);
+                return (documentApi.Id != null);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+        }
+
+        private bool SaveSelfie()
+        {
+            try
+            {
+                var api = new Onfido.Api();                
+                var documentApi = api.Documents.Create(AppId, SelfieSource.GetStream(), "Selfie.png", DocumentType.Unknown);
+                return (documentApi.Id != null);
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+        }
+
+        private async void LoadDocument(object obj)
+        {
+            try
+            {
+                DocumentSource = await Common.LoadCamara("document");
+                DocumentResource = ImageSource.FromStream(() =>
+                {
+                    var stPassport = DocumentSource.GetStream();
+                    return stPassport;
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Camera error: " + ex.Message);
+            }
+        }
+
+        private async void LoadSelfie(object obj)
+        {
+            try
+            {
+                SelfieSource = await Common.LoadCamara("Selfie");
+                SelfieResource = ImageSource.FromStream(() =>
+                {
+                    var stBits = SelfieSource.GetStream();
+                    return stBits;
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine("Camera error: " + ex.Message);
+            }
+        }
+
         private bool CreateApp()
         {
             var api = new Onfido.Api();
@@ -301,51 +445,9 @@ namespace FluidApp
                 return false;
             }
         }
-
         #endregion
 
     }
 
-    public class Applicants
-    {
-        [JsonProperty("id")]
-        public string Id;
 
-        [JsonProperty("created_at")]
-        public DateTime? CreatedAt;
-
-        [JsonProperty("href")]
-        public string HRef;
-
-        [JsonProperty("title")]
-        public string Title;
-
-        [JsonProperty("first_name")]
-        public string FirstName;
-
-        [JsonProperty("middle_name")]
-        public string MiddleName;
-
-        [JsonProperty("last_name")]
-        public string LastName;
-
-        [JsonProperty("gender")]
-        public string Gender;
-
-        [JsonProperty("dob")]
-        public DateTime? DateOfBirth;
-
-        [JsonProperty("telephone")]
-        public string Telephone;
-
-        [JsonProperty("mobile")]
-        public string Mobile;
-
-        [JsonProperty("email")]
-        public string Email;
-
-        [JsonProperty("country")]
-        public string Country;
-
-    }
 }

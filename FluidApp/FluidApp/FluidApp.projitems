@@ -16,14 +16,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ApplicationEntity.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\RelayCommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\UserViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidation.xaml.cs">
       <DependentUpon>IdentityValidation.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SelfieDoc.xaml.cs">
+      <DependentUpon>SelfieDoc.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Welcome.xaml.cs">
       <DependentUpon>Welcome.xaml</DependentUpon>
@@ -38,6 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)IdentityValidation.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)SelfieDoc.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -15,7 +15,5 @@ namespace FluidApp
             BindingContext = userViewModel;
             userViewModel.Navigation = Navigation;
         }
-
-      
     }
 }
