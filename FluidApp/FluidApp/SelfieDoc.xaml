@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:FluidApp"
+             x:Class="FluidApp.SelfieDoc">
+    <ContentPage.Content>
+        <StackLayout>
+            <Image x:Name="imgSelfieFile" WidthRequest="250" Source="{Binding SelfieResource}"  />
+
+            <Button Text="Please, take a clear selfie" x:Name="btnSelfie" Command="{Binding SelfieHandler}" />
+            
+            <Button Text="Start the process" x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
+                    Command="{Binding  FinishProcessHandler}"
+            />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
