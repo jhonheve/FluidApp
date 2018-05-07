@@ -1,7 +1,10 @@
-﻿using Plugin.Media;
+﻿using FluidApp.Entities;
+using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,13 +15,6 @@ namespace FluidApp.Helpers
         public static async Task<MediaFile> LoadCamara(string fileName)
         {
             Location location = new Location();
-            location.Latitude = 52.0271723411551;
-            location.Longitude = -0.764563267810425;
-            location.Altitude = 84;
-            location.HorizontalAccuracy = 165;
-            location.Speed = -1;
-            location.Direction = -1;
-
             var storePicture = new StoreCameraMediaOptions()
             {
                 SaveToAlbum = false,
@@ -30,6 +26,48 @@ namespace FluidApp.Helpers
             };
             var photo = await CrossMedia.Current.TakePhotoAsync(storePicture);
             return photo;
+        }
+
+        public static bool SendRequest(
+                string url, List<ParameterEntity> httpContents, string authorization, HttpMethod httpMethod)
+        {
+            try
+            {
+                using (var formData = new MultipartFormDataContent())
+                {   
+                    var uri = new Uri(url);
+                    httpContents.ForEach(httpContent =>
+                    {
+                        if (string.IsNullOrEmpty(httpContent.Name))
+                        {
+                            formData.Add(httpContent.httpContent);
+                        }
+                        else
+                        {
+                            formData.Add(httpContent.httpContent, httpContent.Name);
+                        }
+                    });
+
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = uri,
+                        Method = httpMethod,
+                        Content = formData
+                    };
+                    var client = new HttpClient();                    
+                    request.Headers.Add("Authorization", authorization);
+                    var response = client.SendAsync(request).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

@@ -2,16 +2,50 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FluidApp"
-             x:Class="FluidApp.SelfieDoc">
+             x:Class="FluidApp.SelfieDoc"
+             Title="Selfie" BackgroundColor="LightGray">
     <ContentPage.Content>
-        <StackLayout>
-            <Image x:Name="imgSelfieFile" WidthRequest="250" Source="{Binding SelfieResource}"  />
+        <ScrollView>
+            <Grid
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}"
+            >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100"/>
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
 
-            <Button Text="Please, take a clear selfie" x:Name="btnSelfie" Command="{Binding SelfieHandler}" />
-            
-            <Button Text="Start the process" x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
-                    Command="{Binding  FinishProcessHandler}"
-            />
-        </StackLayout>
+                <Frame CornerRadius="30" 
+                       OutlineColor="Gray" Grid.Row="0" 
+                       Margin="20" BackgroundColor="LightSlateGray" 
+                       VerticalOptions="Center"
+                       >
+                    <Image x:Name="imgSelfieFile" Aspect="AspectFit" 
+                           HeightRequest="250" 
+                           Source="{Binding SelfieResource}" />                   
+                </Frame>
+                
+                <StackLayout Grid.Row="1"  VerticalOptions="Start" >
+                    <Button BorderRadius="35" Text="Take" HorizontalOptions="Center" 
+                        Command="{Binding SelfieHandler}" TextColor="White" FontSize="Small"
+                        BackgroundColor="DarkSlateGray" 
+                        HeightRequest="70" WidthRequest="70" 
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.5, Constant = -35}" 
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=70}"                         
+                     />
+                </StackLayout>
+
+                <StackLayout Grid.Row="2" BackgroundColor="SlateGray"  VerticalOptions="CenterAndExpand">
+                    <Button Text="Continue" x:Name="Next" BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
+                        Command="{Binding  FinishProcessHandler}" VerticalOptions="FillAndExpand" 
+                     />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

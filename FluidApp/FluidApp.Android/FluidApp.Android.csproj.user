@@ -3,5 +3,6 @@
   <PropertyGroup>
     <SelectedDevice>Genymotion Google</SelectedDevice>
     <DefaultDevice>mm</DefaultDevice>
+    <AndroidDesignerPreferredTheme>Theme.DeviceDefault.NoActionBar.Fullscreen</AndroidDesignerPreferredTheme>
   </PropertyGroup>
 </Project>

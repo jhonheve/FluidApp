@@ -1,24 +1,22 @@
-﻿using FluidApp.Entities;
-using FluidApp.Helpers;
-using Newtonsoft.Json;
-using Onfido;
-using Onfido.Entities;
-using Plugin.Media.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Xamarin.Forms;
-
-namespace FluidApp
+﻿namespace FluidApp
 {
+    using FluidApp.Entities;
+    using FluidApp.Helpers;
+    using Newtonsoft.Json;
+    using Onfido;
+    using Onfido.Entities;
+    using Plugin.Media.Abstractions;
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.ComponentModel;
+    using System.Diagnostics;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using System.Text.RegularExpressions;
+    using System.Windows.Input;
+    using Xamarin.Forms;
+
     public class UserViewModel : INotifyPropertyChanged
     {
         protected virtual void OnPropertyChanged(string propertyName)
@@ -28,7 +26,6 @@ namespace FluidApp
 
         #region Commands
         public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand NextWelcome { get; private set; }
         public ICommand NextDocuments { get; private set; }
         public ICommand NextSelfiePageHandler { get; private set; }
         public ICommand LoadDocumentHandler { get; private set; }
@@ -37,7 +34,6 @@ namespace FluidApp
         #endregion
 
         #region Properties        
-        //public ICommand NextWelcome { get; private set; }
 
         private string messageDetails;
         public string MessageDetails
@@ -53,7 +49,9 @@ namespace FluidApp
             }
         }
 
-        public string AppId { get; private set; }
+
+
+        public string AppId { get; set; }
 
         private string firstName;
         public string FirstName
@@ -98,10 +96,13 @@ namespace FluidApp
             }
         }
 
-        private string country;
-        public string Country
+        private CountryApi country;
+        public CountryApi Country
         {
-            get { return country; }
+            get
+            {
+                return country;
+            }
             set
             {
                 if (country != value)
@@ -155,8 +156,8 @@ namespace FluidApp
             }
         }
 
-        private DateTime dayOfBirth;
-        public DateTime DayOfBirth
+        private DateTime? dayOfBirth;
+        public DateTime? DayOfBirth
         {
             get { return dayOfBirth; }
             set
@@ -168,6 +169,8 @@ namespace FluidApp
                 }
             }
         }
+
+        public DateTime MaxDateTime { get; set; }
 
         private string cellPhone;
         public string CellPhone
@@ -197,10 +200,7 @@ namespace FluidApp
             }
         }
 
-        
-
-        public MediaFile DocumentSource { get; private set; }
-        public MediaFile SelfieSource { get; private set; }
+        public MediaFile DocumentSource { get; set; }
 
         private ImageSource documentResource;
         public ImageSource DocumentResource
@@ -234,6 +234,37 @@ namespace FluidApp
 
         public List<string> DocumentTypes { get; set; }
 
+        private string errorMessage;
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set
+            {
+                if (errorMessage != value)
+                {
+                    errorMessage = value;
+                    OnPropertyChanged("ErrorMessage");
+                }
+            }
+        }
+
+        private ObservableCollection<CountryApi> countries;
+        public ObservableCollection<CountryApi> Countries
+        {
+            get
+            {
+                return countries;
+            }
+            set
+            {
+                if (countries != value)
+                {
+                    countries = value;
+                    OnPropertyChanged("Countries");
+                }
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -241,72 +272,24 @@ namespace FluidApp
         {
             Onfido.Settings.SetApiToken("test_rKbkzSuHC8YnDNCDoBpZP1BhlevqEptU");
             Settings.SetApiVersion("v2");
-            NextWelcome = new RelayCommandHandler(GetApplication);
+            //AppId = "d2491943-f3a2-4ad7-b8b3-3126b7722c39";
+
             NextDocuments = new RelayCommandHandler(UploadDocuments);
             NextSelfiePageHandler = new RelayCommandHandler(SelfiePage);
             LoadDocumentHandler = new RelayCommandHandler(LoadDocument);
-            SelfieHandler = new RelayCommandHandler(LoadSelfie);
-            FinishProcessHandler = new RelayCommandHandler(FinishProcess);
 
             DocumentTypes = new List<string>();
-            DocumentTypes.Add("Government ID");
-            DocumentTypes.Add("Driver's License");
+            DocumentTypes.Add("Driving Licence");
             DocumentTypes.Add("Passport");
-            DayOfBirth = DateTime.Now;
+            MaxDateTime = DateTime.Now.AddYears(-1);
+            DayOfBirth = DateTime.Now.AddYears(-1);
+            GetAllCountries();
         }
         #endregion
 
         #region PrivateMethod
 
-        private async void FinishProcess(object obj)
-        {
-            if (SaveSelfie())
-            {
-                var checks = new Onfido.Resources.Checks();
-                var check = new Check
-                {
-                    Type = CheckType.Express,
-                    Reports = new List<Report>
-                    {
-                        new Report { Name = "identity", Variant="kyc"}
-                    }
-                };
-                var new_check = checks.Create(AppId, check);
-                if (new_check.Id != null)
-                {
-                    //Alert Process Ending successfully
-                    await Navigation.PushAsync(new Welcome());
-
-                }
-            }
-        }
-
-        private async void GetApplication(object obj)
-        {
-            if (!string.IsNullOrWhiteSpace(Email))
-            {
-                try
-                {
-                    var api = new Onfido.Api();
-                    var apps = GetAllApplication();
-                    var app = apps.FirstOrDefault(a => a.Email == Email);
-                    if (app != null)
-                    {
-                        AppId = app.Id;
-                        firstName = app.FirstName;
-                        lastName = app.LastName;
-                        CellPhone = app.Mobile;
-                        DayOfBirth = app.DateOfBirth.Value;
-                    }
-                }
-                finally
-                {
-                    await Navigation.PushAsync(new IdentityValidation(this));
-                }
-            }
-        }
-
-        private List<Applicants> GetAllApplication()
+        public List<Applicants> GetAllApplication()
         {
             var client = new Onfido.Http.OnfidoHttpClient();
             var uri = new Uri("https://api.onfido.com/v2/applicants");
@@ -322,56 +305,174 @@ namespace FluidApp
             return applicants;
         }
 
-        private async void UploadDocuments(object obj)
+        private async void GetAllCountries()
         {
-            if (!string.IsNullOrWhiteSpace(firstName) && !string.IsNullOrWhiteSpace(LastName))
+            try
             {
-                if (CreateApp())
+                var client = new Onfido.Http.OnfidoHttpClient();
+                var uri = new Uri("http://restcountries.eu/rest/v2/all");
+                var httpResponse = client.Get(uri);
+                if (httpResponse.IsSuccessStatusCode)
                 {
-                    await Navigation.PushAsync(new MainPage(this));
+                    var responseStr = httpResponse.Content.ReadAsStringAsync().Result;
+                    var countries_api = JsonConvert.DeserializeObject<List<CountryApi>>(responseStr);
+                    Countries = new ObservableCollection<CountryApi>(countries_api);
                 }
             }
+            catch (Exception ex)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", ex.Message, "Accept");
+            }
+        }
+
+        private async void UploadDocuments(object obj)
+        {
+            if (HasCorrectFormatDatails())
+            {
+                MessageDetails = string.Empty;
+                if (CreateApp())
+                {
+                    if (string.IsNullOrWhiteSpace(MessageDetails))
+                    {
+                        var inst = new MainPage(IdentificationType, AppId);
+                        await Navigation.PushAsync(inst);
+                    }
+                    else
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Processing", MessageDetails, "Accept");
+                    }
+                }
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("Processing", MessageDetails, "Accept");
+            }
+        }
+
+        public bool HasCorrectFormatDatails()
+        {
+            string messege = string.Empty;
+            var numberExpression = @"^(\+[0-9]{9,12})$";
+
+            if (string.IsNullOrWhiteSpace(FirstName) || FirstName.Length < 3)
+            {
+                messege = "The firstname doesnot have the correct format";
+            }
+            else if (string.IsNullOrWhiteSpace(LastName) || LastName.Length < 3)
+            {
+                messege = "The lastname doesnot have the correct format";
+            }
+            else if (Country == null || string.IsNullOrWhiteSpace(Country.alpha3Code))
+            {
+                messege = "The Country has not been selected";
+            }
+            else if (string.IsNullOrWhiteSpace(IdentificationType))
+            {
+                messege = "The document Type has not been selected";
+            }
+
+            else if (string.IsNullOrEmpty(CellPhone) || !Regex.Match(CellPhone, numberExpression).Success)
+            {
+                messege = "The Mobile does not have the correct format (+5113423234)";
+            }
+
+            var MatchEmailPattern =
+                    @"^(([\w-]+\.)+[\w-]+|([a-zA-Z]{1}|[\w-]{2,}))@"
+                    + @"((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				                [0-9]{1,2}|25[0-5]|2[0-4][0-9])\."
+                    + @"([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\.([0-1]?
+				                [0-9]{1,2}|25[0-5]|2[0-4][0-9])){1}|"
+                    + @"([a-zA-Z0-9]+[\w-]+\.)+[a-zA-Z]{1}[a-zA-Z0-9-]{1,23})$";
+
+            if (!(!string.IsNullOrWhiteSpace(Email) && Regex.IsMatch(email, MatchEmailPattern)))
+            {
+                messege = "The Email does not have the correct format";
+            }
+
+            MessageDetails = messege;
+            var isValid = string.IsNullOrEmpty(messege);
+            return isValid;
         }
 
         private async void SelfiePage(object obj)
         {
             if (DocumentResource != null && SaveDocument())
             {
-                await Navigation.PushAsync(new SelfieDoc(this));
+                await Navigation.PushAsync(new SelfieDoc(AppId));
             }
         }
+
+        //private bool SaveDocument()
+        //{
+        //    try
+        //    {
+        //        var api = new Onfido.Api();
+        //        var docType = DocumentType.NationalIdentityCard;
+        //        if (IdentificationType == "Passport")
+        //        {
+        //            docType = DocumentType.Passport;
+        //        }
+        //        else if (IdentificationType == "Driver's License")
+        //        {
+        //            docType = DocumentType.Passport;
+        //        }
+        //        var stFile = DocumentSource.GetStream();
+
+        //        var documentApi = api.Documents.Create(AppId, stFile, "document180430033521.jpg", docType);
+
+        //        return (documentApi.Id != null);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return false;
+        //    }
+        //}
 
         private bool SaveDocument()
         {
             try
             {
-                var api = new Onfido.Api();                
-                var documentApi = api.Documents.Create(AppId, DocumentSource.GetStream(), "Passport.png", DocumentType.Passport);
-                return (documentApi.Id != null);
-            }
-            catch (Exception)
-            {
-                return false;
-            }
+                var docType = IdentificationType.Replace(" ", "_");
 
-        }
+                using (var formData = new MultipartFormDataContent())
+                {
+                    var urli = string.Format("https://api.onfido.com/v2/applicants/{0}/documents", AppId);
+                    var uri = new Uri(urli);
 
-        private bool SaveSelfie()
-        {
-            try
-            {
-                var api = new Onfido.Api();                
-                var documentApi = api.Documents.Create(AppId, SelfieSource.GetStream(), "Selfie.png", DocumentType.Unknown);
-                return (documentApi.Id != null);
+                    var fileContent = new StreamContent(DocumentSource.GetStream());
+                    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
+                    {
+                        Name = "file",
+                        FileName = "Document.png"
+                    };
+                    fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
+                    formData.Add(fileContent);
+
+                    formData.Add(new StringContent(IdentificationType), "\"type\"");
+
+                    var request = new HttpRequestMessage()
+                    {
+                        RequestUri = uri,
+                        Method = HttpMethod.Post,
+                        Content = formData
+                    };
+                    var client = new HttpClient();
+                    request.Headers.Add("Authorization", string.Format("Token token={0}", Settings.GetApiToken()));
+                    var response = client.SendAsync(request).Result;
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
             }
             catch (Exception ex)
             {
                 return false;
             }
-
         }
 
-        private async void LoadDocument(object obj)
+        public async void LoadDocument(object obj)
         {
             try
             {
@@ -388,22 +489,6 @@ namespace FluidApp
             }
         }
 
-        private async void LoadSelfie(object obj)
-        {
-            try
-            {
-                SelfieSource = await Common.LoadCamara("Selfie");
-                SelfieResource = ImageSource.FromStream(() =>
-                {
-                    var stBits = SelfieSource.GetStream();
-                    return stBits;
-                });
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Camera error: " + ex.Message);
-            }
-        }
 
         private bool CreateApp()
         {
@@ -413,8 +498,9 @@ namespace FluidApp
                 FirstName = FirstName,
                 LastName = LastName,
                 Email = Email,
-                DateOfBirth = DayOfBirth,
-                Mobile = CellPhone
+                DateOfBirth = DayOfBirth.GetValueOrDefault(DateTime.Now.AddDays(-1)),
+                Mobile = CellPhone,
+                Country = Country.alpha3Code
             };
 
             try
@@ -442,12 +528,11 @@ namespace FluidApp
             }
             catch (Exception ex)
             {
+                MessageDetails = ex.Message;
                 return false;
             }
         }
         #endregion
 
     }
-
-
 }

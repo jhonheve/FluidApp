@@ -1,16 +1,39 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:FluidViewModel;assembly=FluidViewModel"
-             x:Class="FluidApp.Welcome" Title="Fluid">
-    <StackLayout Padding="0,20,0,0">
-        
-        <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="20" />        
-        <Label Text="Email:" />
-        <Entry Placeholder="Please type your email" x:Name="stEmail" Text="{Binding Email}"  />
+             x:Class="FluidApp.Welcome" Title="Back">
+    <ContentPage.BackgroundColor>
+        <Color>SlateGray</Color>
+    </ContentPage.BackgroundColor>
+    <ContentPage.Content>
+        <Grid 
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
 
-        <Button Text="Do you like to keep processing your information" 
-                x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
-                Command="{Binding NextWelcome}" />
-    </StackLayout>
+            <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="50" Grid.Row="0" TextColor="White"
+                   FontAttributes="Bold"
+                   Margin="20, 50" />
+
+            <StackLayout Grid.Row="1" Padding="50">
+                <Label Text="Enter your access token" FontSize="20" TextColor="White"  />
+                <Entry Placeholder="Access token" Text="{Binding AccessToken}" FontSize="20" />
+            </StackLayout>
+
+            <Button Text="Submit information or Continue" 
+                Grid.Row="3"
+                BorderRadius="10" BorderColor="AliceBlue"
+                x:Name="Next"
+                VerticalOptions="End" 
+                Font="25" 
+                HorizontalOptions="Fill"
+                Command="{Binding NextWelcomeHandler}" />
+
+        
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

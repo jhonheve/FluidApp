@@ -2,16 +2,57 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:FluidApp"
-             x:Class="FluidApp.MainPage">
+             x:Class="FluidApp.MainPage"
+             Title="Documentation" BackgroundColor="LightGray"
+             >
+
     <ContentPage.Content>
-        <StackLayout>
-            <Image x:Name="LoadedPicture" WidthRequest="250" Source="{Binding DocumentResource}" />
-            <Button Text="Take The picture of your document Identity" x:Name="btIdentification"
-                    Command="{Binding LoadDocumentHandler}" />
-            
-            <Button Text="Start the process" 
-                x:Name="Next" HorizontalOptions="Fill" VerticalOptions="End" Font="20"
-                Command="{Binding NextSelfiePageHandler}" />
-        </StackLayout>
+        <ScrollView>
+            <Grid
+            RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
+            RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="150"/>
+                    <RowDefinition Height="50" />
+                </Grid.RowDefinitions>
+
+                <Frame CornerRadius="30" 
+                       OutlineColor="Gray" Grid.Row="0" 
+                       Margin="20" BackgroundColor="LightSlateGray" 
+                       VerticalOptions="Center"
+                       >
+                    <Image x:Name="imgSelfieFile" Aspect="AspectFit" 
+                           HeightRequest="250" 
+                           Source="{Binding DocumentResource}" />
+                </Frame>
+
+                <StackLayout Grid.Row="1"  VerticalOptions="Start" >
+                    <Button BorderRadius="35" Text="Take" HorizontalOptions="Center" 
+                        Command="{Binding LoadDocumentHandler}" TextColor="White" FontSize="Small"
+                        BackgroundColor="DarkSlateGray" 
+                        HeightRequest="70" WidthRequest="70" 
+                        RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.5, Constant = -35}" 
+                        RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=70}"                         
+                     />
+                </StackLayout>
+
+                <StackLayout Grid.Row="2" BackgroundColor="Transparent"  VerticalOptions="Start" Margin="20">
+                    <Label Text="Please remove glasses, and other object that cover your head or face, and look straight into the camera" 
+						HorizontalOptions="Center" FontSize="Medium" TextColor="DimGray" />
+                </StackLayout>
+
+                <StackLayout Grid.Row="3" BackgroundColor="SlateGray"  VerticalOptions="End">
+                    <Button Text="Take selfie" x:Name="Next" BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
+                        Command="{Binding  NextSelfiePageHandler}" VerticalOptions="FillAndExpand" 
+                     />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

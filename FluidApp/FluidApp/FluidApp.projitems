@@ -17,7 +17,13 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Entities\ApplicationEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\CountryApi.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Entities\ParameterEntity.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\DocumentViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\ManagementViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\RelayCommandHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\RootViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\SelfieViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\UserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Common.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidation.xaml.cs">
@@ -29,6 +35,10 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)SelfieDoc.xaml.cs">
       <DependentUpon>SelfieDoc.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)SplashView.xaml.cs">
+      <DependentUpon>SplashView.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Welcome.xaml.cs">
@@ -50,6 +60,12 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)SelfieDoc.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="$(MSBuildThisFileDirectory)SplashView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </EmbeddedResource>

@@ -11,10 +11,20 @@ namespace FluidApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IdentityValidation : ContentPage
 	{
-		public IdentityValidation(UserViewModel userViewModel)
-		{
-            BindingContext = userViewModel;
+        public IdentityValidation()
+        {
             InitializeComponent();
-        }        
+            var userViewModel = new UserViewModel();
+            userViewModel.Navigation = Navigation;
+            BindingContext = userViewModel;
+        }
+
+        public IdentityValidation(UserViewModel userViewModel)
+		{
+            InitializeComponent();
+            userViewModel = new UserViewModel();
+            userViewModel.Navigation = Navigation;
+            BindingContext = userViewModel;    
+        }
     }
 }
