@@ -14,9 +14,9 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="100"/>
-                    <RowDefinition Height="50" />
+                    <RowDefinition Height="50*" />
+                    <RowDefinition Height="30*"/>
+                    <RowDefinition Height="20*" />
                 </Grid.RowDefinitions>
 
                 <Frame CornerRadius="30" 
@@ -39,7 +39,7 @@
                      />
                 </StackLayout>
 
-                <StackLayout Grid.Row="2" BackgroundColor="SlateGray"  VerticalOptions="CenterAndExpand">
+                <StackLayout Grid.Row="2" BackgroundColor="SlateGray"  VerticalOptions="End">
                     <Button Text="Continue" x:Name="Next" BackgroundColor="Transparent"
                         HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
                         Command="{Binding  FinishProcessHandler}" VerticalOptions="FillAndExpand" 

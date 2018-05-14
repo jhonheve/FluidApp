@@ -7,49 +7,52 @@
              Title="Identification">
     <ContentPage.Content>
         <ScrollView>
-            <StackLayout Padding="50" Spacing="10">
-                <Label Text="First Name" />
-                <Entry  x:Name="txtFirstName" Margin="0, 5" Text="{Binding FirstName}" />
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="90*"  />
+                    <RowDefinition Height="10*"/>
+                </Grid.RowDefinitions>
 
-                <Label Text="Last Name"  />
-                <Entry x:Name="txtLastName" Margin="0, 5" Text="{Binding LastName}" />
+                <StackLayout Padding="50" Spacing="10" Grid.Row="0">
+                    <Label Text="First Name" />
+                    <Entry  x:Name="txtFirstName" Margin="0, 5" Text="{Binding FirstName}" />
 
-                <Label Text="Email:" />
-                <Entry Placeholder="Please type your email" Text="{Binding Email}"  />
-                <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+                    <Label Text="Last Name"  />
+                    <Entry x:Name="txtLastName" Margin="0, 5" Text="{Binding LastName}" />
 
-                <Label Text="Country" x:Name="lbCountry" />
-                <Picker Title="Select your Country" Margin="0, 5" ItemDisplayBinding="{Binding name}"
+                    <Label Text="Email:" />
+                    <Entry Placeholder="Please type your email" Text="{Binding Email}"  />
+                    <Label Text="{Binding ErrorMessage}" TextColor="Red" />
+
+                    <Label Text="Country" x:Name="lbCountry" />
+                    <Picker Title="Select your Country" Margin="0, 5" ItemDisplayBinding="{Binding name}"
                     ItemsSource="{Binding Countries}"
                     SelectedItem="{Binding Country}">
-                </Picker>
+                    </Picker>
 
-                <Label Text="Document type"  />
-                <Picker x:Name="IdentityTypes" Title="Document type" Margin="0, 5"
+                    <Label Text="Document type"  />
+                    <Picker x:Name="IdentityTypes" Title="Document type" Margin="0, 5"
                     ItemsSource="{Binding DocumentTypes}"
                     SelectedItem="{Binding IdentificationType}">
-                </Picker>
+                    </Picker>
 
-                <Label Text="Date of Birth"/>
-                <DatePicker Date="{Binding DayOfBirth}" MaximumDate="{Binding MaxDateTime}">
-                    <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
-                </DatePicker>
+                    <Label Text="Date of Birth"/>
+                    <DatePicker Date="{Binding DayOfBirth}" MaximumDate="{Binding MaxDateTime}">
+                        <DatePicker.Format>yyyy-MM-dd</DatePicker.Format>
+                    </DatePicker>
 
-                <Label Text="Mobile"/>
-                <Entry Margin="0, 5" Text="{Binding CellPhone}" Placeholder="(Country code) (#########)" />
+                    <Label Text="Mobile"/>
+                    <Entry Margin="0, 5" Text="{Binding CellPhone}" Placeholder="(Country code) (#########)" />
 
-              
-
-                <Button Text="Proceed with your document files" 
-               
-                BorderRadius="10" BorderColor="AliceBlue"
-                x:Name="Next"
-                VerticalOptions="End" 
-                Font="25" 
-                HorizontalOptions="Fill"
-                Command="{Binding NextDocuments}"/>
-
-            </StackLayout>
+                </StackLayout>
+                
+                <StackLayout Grid.Row="1" BackgroundColor="SlateGray"  VerticalOptions="End" HorizontalOptions="Fill">
+                    <Button Text="Proceed with your document files"  x:Name="Next" BackgroundColor="Transparent"
+                        Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
+                        Command="{Binding  NextDocuments}" VerticalOptions="End" HorizontalOptions="Fill" 
+                     />
+                </StackLayout>
+            </Grid>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

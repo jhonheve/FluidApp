@@ -15,7 +15,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
-            <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="50" Grid.Row="0" TextColor="White"
+            <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="30" Grid.Row="0" TextColor="White"
                    FontAttributes="Bold"
                    Margin="20, 50" />
 

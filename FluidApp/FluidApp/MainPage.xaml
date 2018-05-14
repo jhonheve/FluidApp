@@ -7,52 +7,50 @@
              >
 
     <ContentPage.Content>
-        <ScrollView>
-            <Grid
+        <Grid
             RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
             RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="80"/>
-                    <RowDefinition Height="150"/>
-                    <RowDefinition Height="50" />
-                </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50*"  />
+                <RowDefinition Height="10*"/>
+                <RowDefinition Height="20*"/>
+                <RowDefinition Height="20*" />
+            </Grid.RowDefinitions>
 
-                <Frame CornerRadius="30" 
+            <Frame CornerRadius="30" 
                        OutlineColor="Gray" Grid.Row="0" 
-                       Margin="20" BackgroundColor="LightSlateGray" 
+                       Margin="5" BackgroundColor="LightSlateGray" 
                        VerticalOptions="Center"
                        >
-                    <Image x:Name="imgSelfieFile" Aspect="AspectFit" 
-                           HeightRequest="250" 
+                <Image x:Name="imgSelfieFile" Aspect="AspectFit" 
+                           HeightRequest="250" VerticalOptions="FillAndExpand"                           
                            Source="{Binding DocumentResource}" />
-                </Frame>
+            </Frame>
 
-                <StackLayout Grid.Row="1"  VerticalOptions="Start" >
-                    <Button BorderRadius="35" Text="Take" HorizontalOptions="Center" 
+            <StackLayout Grid.Row="1"  VerticalOptions="Start" >
+                <Button BorderRadius="35" Text="Take" HorizontalOptions="Center" 
                         Command="{Binding LoadDocumentHandler}" TextColor="White" FontSize="Small"
                         BackgroundColor="DarkSlateGray" 
                         HeightRequest="70" WidthRequest="70" 
                         RelativeLayout.XConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width, Factor=.5, Constant = -35}" 
                         RelativeLayout.YConstraint="{ConstraintExpression Type=RelativeToParent, Factor=0, Property=Y, Constant=70}"                         
                      />
-                </StackLayout>
+            </StackLayout>
 
-                <StackLayout Grid.Row="2" BackgroundColor="Transparent"  VerticalOptions="Start" Margin="20">
-                    <Label Text="Please remove glasses, and other object that cover your head or face, and look straight into the camera" 
+            <StackLayout Grid.Row="2" BackgroundColor="Transparent"  VerticalOptions="Start" Padding="20">
+                <Label Text="Please remove glasses, and other object that cover your head or face, and look straight into the camera" 
 						HorizontalOptions="Center" FontSize="Medium" TextColor="DimGray" />
-                </StackLayout>
+            </StackLayout>
 
-                <StackLayout Grid.Row="3" BackgroundColor="SlateGray"  VerticalOptions="End">
-                    <Button Text="Take selfie" x:Name="Next" BackgroundColor="Transparent"
+            <StackLayout Grid.Row="3" BackgroundColor="SlateGray"  VerticalOptions="End">
+                <Button Text="Take selfie" x:Name="Next" BackgroundColor="Transparent"
                         HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
                         Command="{Binding  NextSelfiePageHandler}" VerticalOptions="FillAndExpand" 
                      />
-                </StackLayout>
-            </Grid>
-        </ScrollView>
+            </StackLayout>
+        </Grid>
     </ContentPage.Content>
 </ContentPage>

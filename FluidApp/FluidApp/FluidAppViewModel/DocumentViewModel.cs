@@ -99,7 +99,7 @@ namespace FluidApp.FluidAppViewModel
         {
             if (DocumentResource != null && SaveDocument())
             {
-                await Navigation.PushAsync(new SelfieDoc(ApplicationId));
+                await Navigation.PushAsync(new SelfieDoc(DocumentType, ApplicationId));
             }
         }
     }

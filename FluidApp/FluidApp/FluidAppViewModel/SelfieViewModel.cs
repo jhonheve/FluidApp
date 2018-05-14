@@ -34,15 +34,13 @@ namespace FluidApp.FluidAppViewModel
                 }
             }
         }
-        public string DocumentType { get; set; }
+       
 
-        public SelfieViewModel(string documentType, string applicationId)
+        public SelfieViewModel(string applicationId)
         {
-            ApplicationId = applicationId;
-            DocumentType = documentType;
+            ApplicationId = applicationId;         
             SelfieHandler = new RelayCommandHandler(LoadSelfie);
             FinishProcessHandler = new RelayCommandHandler(FinishProcess);
-
         }
 
         public async void LoadSelfie(object obj)

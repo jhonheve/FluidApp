@@ -9,21 +9,21 @@
     {
         public SelfieDoc(string documentType, string applicationId)
         {
-            var selfieViewModel = new SelfieViewModel(documentType, applicationId);
-            selfieViewModel.LoadSelfie(null);
-            selfieViewModel.Navigation = Navigation;
-            BindingContext = selfieViewModel;
-            InitializeComponent();           
-        }
-
-        public SelfieDoc(string applicationId)
-        {
-            var selfieViewModel = new SelfieViewModel("", applicationId);
+            var selfieViewModel = new SelfieViewModel(applicationId);
             selfieViewModel.LoadSelfie(null);
             selfieViewModel.Navigation = Navigation;
             BindingContext = selfieViewModel;
             InitializeComponent();
-           
+        }
+
+        public SelfieDoc(string applicationId)
+        {
+            var selfieViewModel = new SelfieViewModel(applicationId);
+            selfieViewModel.LoadSelfie(null);
+            selfieViewModel.Navigation = Navigation;
+            BindingContext = selfieViewModel;
+            InitializeComponent();
+
         }
     }
 }

@@ -272,7 +272,6 @@
         {
             Onfido.Settings.SetApiToken("test_rKbkzSuHC8YnDNCDoBpZP1BhlevqEptU");
             Settings.SetApiVersion("v2");
-            //AppId = "d2491943-f3a2-4ad7-b8b3-3126b7722c39";
 
             NextDocuments = new RelayCommandHandler(UploadDocuments);
             NextSelfiePageHandler = new RelayCommandHandler(SelfiePage);
@@ -281,8 +280,8 @@
             DocumentTypes = new List<string>();
             DocumentTypes.Add("Driving Licence");
             DocumentTypes.Add("Passport");
-            MaxDateTime = DateTime.Now.AddYears(-1);
-            DayOfBirth = DateTime.Now.AddYears(-1);
+            MaxDateTime = DateTime.Now;
+            DayOfBirth = DateTime.Now;
             GetAllCountries();
         }
         #endregion
@@ -336,17 +335,11 @@
                     {
                         var inst = new MainPage(IdentificationType, AppId);
                         await Navigation.PushAsync(inst);
-                    }
-                    else
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Processing", MessageDetails, "Accept");
+                        return;
                     }
                 }
             }
-            else
-            {
-                await Application.Current.MainPage.DisplayAlert("Processing", MessageDetails, "Accept");
-            }
+            await Application.Current.MainPage.DisplayAlert("Processing", MessageDetails, "Accept");
         }
 
         public bool HasCorrectFormatDatails()
@@ -370,7 +363,10 @@
             {
                 messege = "The document Type has not been selected";
             }
-
+            else if (DayOfBirth == null || DayOfBirth.Value.Year == MaxDateTime.Year)
+            {
+                messege = "The day of birth has not been selected";
+            }
             else if (string.IsNullOrEmpty(CellPhone) || !Regex.Match(CellPhone, numberExpression).Success)
             {
                 messege = "The Mobile does not have the correct format (+5113423234)";
