@@ -3,7 +3,6 @@ D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\FluidApp.Android.
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\FluidApp.Android.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\com.companyname.FluidApp.apk
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\com.companyname.FluidApp-Signed.apk
-D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Android.csprojResolveAssemblyReference.cache
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Android.csproj.CoreCompileInputs.cache
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Droid.App.xaml.g.cs
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Droid.MainPage.xaml.g.cs
@@ -26,6 +25,7 @@ D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\res\drawable\spla
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\res\drawable\doctrial.png
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\R.cs.flag
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\uploadflags.txt
+D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Debug\FluidApp.Android.csprojResolveAssemblyReference.cache
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\Mono.Android.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\mscorlib.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Debug\Plugin.Connectivity.Abstractions.pdb

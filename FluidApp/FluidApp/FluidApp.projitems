@@ -26,6 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\SelfieViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FluidAppViewModel\UserViewModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\Common.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\CustomDatePicker.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IdentityValidation.xaml.cs">
       <DependentUpon>IdentityValidation.xaml</DependentUpon>
       <SubType>Code</SubType>

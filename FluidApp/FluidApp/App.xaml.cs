@@ -7,8 +7,8 @@
 		public App ()
 		{
 			InitializeComponent();
-			//MainPage = new NavigationPage(new SplashView());
-            MainPage = new NavigationPage(new SelfieDoc("0359318a-2f43-4ab0-944f-3fef2d9c1d23"));
+			MainPage = new NavigationPage(new SplashView());
+            //MainPage = new NavigationPage(new IdentityValidation());
         }
 
 		protected override void OnStart ()

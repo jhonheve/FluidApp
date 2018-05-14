@@ -106,7 +106,6 @@ D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\System.Web.Services.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\System.Xml.Linq.pdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\System.Xml.pdb
-D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\FluidApp.Android.csprojResolveAssemblyReference.cache
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Release\FluidApp.Android.dll
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\FluidApp.Android.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\FormsViewGroup.dll.mdb

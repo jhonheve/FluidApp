@@ -281,7 +281,6 @@
             DocumentTypes.Add("Driving Licence");
             DocumentTypes.Add("Passport");
             MaxDateTime = DateTime.Now;
-            DayOfBirth = DateTime.Now;
             GetAllCountries();
         }
         #endregion

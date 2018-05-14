@@ -11,10 +11,12 @@ namespace FluidApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IdentityValidation : ContentPage
 	{
+        UserViewModel userViewModel;
+
         public IdentityValidation()
         {
             InitializeComponent();
-            var userViewModel = new UserViewModel();
+            userViewModel = new UserViewModel();
             userViewModel.Navigation = Navigation;
             BindingContext = userViewModel;
         }
@@ -25,6 +27,11 @@ namespace FluidApp
             userViewModel = new UserViewModel();
             userViewModel.Navigation = Navigation;
             BindingContext = userViewModel;    
+        }
+
+        private void CustomDatePicker_DateSelected(object sender, DateChangedEventArgs e)
+        {
+            userViewModel.DayOfBirth = BirthDate.Date;
         }
     }
 }
