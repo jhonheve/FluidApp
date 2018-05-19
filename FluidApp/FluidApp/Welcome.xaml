@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FluidApp.Welcome" Title="Back">
     <ContentPage.BackgroundColor>
-        <Color>SlateGray</Color>
+        <Color>LightGray</Color>
     </ContentPage.BackgroundColor>
     <ContentPage.Content>
         <Grid 
@@ -15,7 +15,7 @@
                 <RowDefinition Height="50" />
             </Grid.RowDefinitions>
 
-            <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="30" Grid.Row="0" TextColor="White"
+            <Label Text="Welcome to Fluid" HorizontalOptions="Center" FontSize="30" Grid.Row="0" TextColor="White" 
                    FontAttributes="Bold"
                    Margin="20, 50" />
 
@@ -24,16 +24,15 @@
                 <Entry Placeholder="Access token" Text="{Binding AccessToken}" FontSize="20" />
             </StackLayout>
 
-            <Button Text="Submit information or Continue" 
-                Grid.Row="3"
-                BorderRadius="10" BorderColor="AliceBlue"
-                x:Name="Next"
-                VerticalOptions="End" 
-                Font="25" 
-                HorizontalOptions="Fill"
-                Command="{Binding NextWelcomeHandler}" />
 
-        
+            <StackLayout BackgroundColor="SlateGray"  VerticalOptions="End"  Grid.Row="3">
+                <Button Text="Submit information or Continue" x:Name="Next" BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
+                        Command="{Binding  NextWelcomeHandler}" VerticalOptions="FillAndExpand" 
+                     />
+            </StackLayout>
+
+
         </Grid>
     </ContentPage.Content>
 </ContentPage>

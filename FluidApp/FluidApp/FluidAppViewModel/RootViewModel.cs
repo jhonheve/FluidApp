@@ -19,8 +19,8 @@
         public INavigation Navigation { get; internal set; }
         public ICommand NextSplashHandler { get; private set; }
         public ICommand NextWelcomeHandler { get; private set; }
-        
-        
+
+
 
         private string accessToken;
         public string AccessToken
@@ -37,7 +37,7 @@
         }
 
         public RootViewModel()
-        {   
+        {
             NextSplashHandler = new RelayCommandHandler(NextSplash);
             NextWelcomeHandler = new RelayCommandHandler(NextWelcome);
         }
@@ -54,7 +54,8 @@
                 if (CrossConnectivity.Current.IsConnected && !string.IsNullOrWhiteSpace(AccessToken))
                 {
                     AccessToken = string.Empty;
-                    await Navigation.PushAsync(new IdentityValidation());
+                    var identityValidation =new IdentityValidation();
+                    await Navigation.PushAsync(identityValidation);
                 }
             }
             catch (Exception ex)

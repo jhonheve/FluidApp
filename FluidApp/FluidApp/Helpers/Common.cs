@@ -22,7 +22,6 @@ namespace FluidApp.Helpers
                 AllowCropping = true,
                 DefaultCamera = CameraDevice.Rear,
                 SaveMetaData = true,
-                Location = location
             };
             var photo = await CrossMedia.Current.TakePhotoAsync(storePicture);
             return photo;

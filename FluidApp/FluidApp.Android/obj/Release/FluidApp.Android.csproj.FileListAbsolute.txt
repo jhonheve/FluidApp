@@ -81,6 +81,7 @@ D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\Plugin.
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\Xamarin.Forms.Core.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\Xamarin.Forms.Platform.Android.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\linksrc\Xamarin.Forms.Xaml.dll.mdb
+D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\FluidApp.Android.csprojResolveAssemblyReference.cache
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\bin\Release\FluidApp.Android.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\FluidApp.Android.dll.mdb
 D:\Projects\Fluid\FluidApp\FluidApp\FluidApp.Android\obj\Release\android\assets\FormsViewGroup.dll.mdb

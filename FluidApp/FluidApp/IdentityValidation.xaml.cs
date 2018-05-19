@@ -31,7 +31,8 @@ namespace FluidApp
 
         private void CustomDatePicker_DateSelected(object sender, DateChangedEventArgs e)
         {
-            userViewModel.DayOfBirth = BirthDate.Date;
+            var dateofBirth= BirthDate.Date;
+            userViewModel.DayOfBirth = dateofBirth;
         }
     }
 }

@@ -26,11 +26,8 @@
 
         #region Commands
         public event PropertyChangedEventHandler PropertyChanged;
-        public ICommand NextDocuments { get; private set; }
-        public ICommand NextSelfiePageHandler { get; private set; }
-        public ICommand LoadDocumentHandler { get; private set; }
-        public ICommand SelfieHandler { get; private set; }
-        public ICommand FinishProcessHandler { get; private set; }
+        public ICommand NextDocuments { get; private set; }       
+        
         #endregion
 
         #region Properties        
@@ -272,14 +269,15 @@
         {
             Onfido.Settings.SetApiToken("test_rKbkzSuHC8YnDNCDoBpZP1BhlevqEptU");
             Settings.SetApiVersion("v2");
-
             NextDocuments = new RelayCommandHandler(UploadDocuments);
-            NextSelfiePageHandler = new RelayCommandHandler(SelfiePage);
-            LoadDocumentHandler = new RelayCommandHandler(LoadDocument);
 
-            DocumentTypes = new List<string>();
-            DocumentTypes.Add("Driving Licence");
-            DocumentTypes.Add("Passport");
+            DocumentTypes = new List<string>()
+            {
+                "Driving Licence",
+                "Passport",
+                "National Identity Card"
+            };
+
             MaxDateTime = DateTime.Now;
             GetAllCountries();
         }
@@ -364,7 +362,7 @@
             }
             else if (DayOfBirth == null || DayOfBirth.Value.Year == MaxDateTime.Year)
             {
-                messege = "The day of birth has not been selected";
+                messege = "The day of birth field is not a valid date";
             }
             else if (string.IsNullOrEmpty(CellPhone) || !Regex.Match(CellPhone, numberExpression).Success)
             {
@@ -387,104 +385,8 @@
             MessageDetails = messege;
             var isValid = string.IsNullOrEmpty(messege);
             return isValid;
-        }
-
-        private async void SelfiePage(object obj)
-        {
-            if (DocumentResource != null && SaveDocument())
-            {
-                await Navigation.PushAsync(new SelfieDoc(AppId));
-            }
-        }
-
-        //private bool SaveDocument()
-        //{
-        //    try
-        //    {
-        //        var api = new Onfido.Api();
-        //        var docType = DocumentType.NationalIdentityCard;
-        //        if (IdentificationType == "Passport")
-        //        {
-        //            docType = DocumentType.Passport;
-        //        }
-        //        else if (IdentificationType == "Driver's License")
-        //        {
-        //            docType = DocumentType.Passport;
-        //        }
-        //        var stFile = DocumentSource.GetStream();
-
-        //        var documentApi = api.Documents.Create(AppId, stFile, "document180430033521.jpg", docType);
-
-        //        return (documentApi.Id != null);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return false;
-        //    }
-        //}
-
-        private bool SaveDocument()
-        {
-            try
-            {
-                var docType = IdentificationType.Replace(" ", "_");
-
-                using (var formData = new MultipartFormDataContent())
-                {
-                    var urli = string.Format("https://api.onfido.com/v2/applicants/{0}/documents", AppId);
-                    var uri = new Uri(urli);
-
-                    var fileContent = new StreamContent(DocumentSource.GetStream());
-                    fileContent.Headers.ContentDisposition = new ContentDispositionHeaderValue("form-data")
-                    {
-                        Name = "file",
-                        FileName = "Document.png"
-                    };
-                    fileContent.Headers.ContentType = new MediaTypeHeaderValue("image/png");
-                    formData.Add(fileContent);
-
-                    formData.Add(new StringContent(IdentificationType), "\"type\"");
-
-                    var request = new HttpRequestMessage()
-                    {
-                        RequestUri = uri,
-                        Method = HttpMethod.Post,
-                        Content = formData
-                    };
-                    var client = new HttpClient();
-                    request.Headers.Add("Authorization", string.Format("Token token={0}", Settings.GetApiToken()));
-                    var response = client.SendAsync(request).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return true;
-                    }
-                    return false;
-                }
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
-        }
-
-        public async void LoadDocument(object obj)
-        {
-            try
-            {
-                DocumentSource = await Common.LoadCamara("document");
-                DocumentResource = ImageSource.FromStream(() =>
-                {
-                    var stPassport = DocumentSource.GetStream();
-                    return stPassport;
-                });
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine("Camera error: " + ex.Message);
-            }
-        }
-
-
+        }  
+        
         private bool CreateApp()
         {
             var api = new Onfido.Api();
@@ -523,7 +425,7 @@
             }
             catch (Exception ex)
             {
-                MessageDetails = ex.Message;
+                MessageDetails = ex.Message;              
                 return false;
             }
         }

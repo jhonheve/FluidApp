@@ -8,10 +8,14 @@
     <ContentPage.Content>
         <Grid RelativeLayout.WidthConstraint="{ConstraintExpression Type=RelativeToParent,Property=Width}"
               RelativeLayout.HeightConstraint="{ConstraintExpression Type=RelativeToParent,Property=Height}">
-            <Button Text="Start validation" BorderRadius="10" BorderColor="AliceBlue"
-                x:Name="Next" HorizontalOptions="Fill" Margin="10"
-                VerticalOptions="End" Font="25"
-                Command="{Binding NextSplashHandler}"  />
+
+            <StackLayout BackgroundColor="SlateGray"  VerticalOptions="End">
+                <Button Text="Continue" x:Name="Next" BackgroundColor="Transparent"
+                        HorizontalOptions="CenterAndExpand" Font="20" Margin="5" TextColor="White" FontSize="Medium"                 
+                        Command="{Binding  NextSplashHandler}" VerticalOptions="FillAndExpand" 
+                     />
+            </StackLayout>
+         
         </Grid>
     </ContentPage.Content>
 </ContentPage>
